@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex-1">
+    <div className="w-full">
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center mx-auto px-4">
           <div className="flex items-center rounded-2xl bg-muted px-4 py-1 text-sm font-medium">
             <Sparkles className="mr-1 h-4 w-4" />
             AI-Powered Crypto Gift Cards

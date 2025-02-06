@@ -11,6 +11,7 @@ import {
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import WalletConnect from "./WalletConnect";
 //import WalletConnect from "./wallet-connect";
 
 export default function Navbar() {
@@ -34,7 +35,7 @@ export default function Navbar() {
             </Link>
           </nav>
           
-          {/* <WalletConnect /> */}
+          <WalletConnect />
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

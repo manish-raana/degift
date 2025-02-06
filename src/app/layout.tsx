@@ -1,12 +1,9 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import Navbar from '@/components/navbar';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'DeGift - AI-Powered Crypto Gift Cards',
@@ -20,16 +17,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className="flex min-h-screen flex-col items-center justify-start">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col items-center justify-start">
+          <div className="max-w-7xl w-full">
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className="w-full">{children}</main>
             <Footer />
           </div>
           <Toaster />
