@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { GiftTheme, getThemesByOccasion } from "@/lib/themes";
 import { useTheme } from "next-themes";
 import { MagicCard } from "@/components/magic-card";
+import TransactionDemo from "@/components/TransactionDemo";
 
 export default function CreateGift() {
   const [amount, setAmount] = useState("");
@@ -213,6 +214,7 @@ export default function CreateGift() {
                       <Palette className="h-4 w-4" />
                       Choose Your Perfect Theme
                     </Label>
+                    <TransactionDemo />
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {availableThemes.map((_theme) => (
                         <MagicCard
