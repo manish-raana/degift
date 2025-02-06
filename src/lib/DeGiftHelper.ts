@@ -36,4 +36,20 @@ export class DeGiftHelper {
   async getGiftDetails(giftId: number): Promise<any> {
     return await this.contract.getGiftDetails(giftId);
   }
+
+  // Get the total number of gift cards created
+  async getTotalGiftCardsCreated(): Promise<string> {
+    const totalGiftCardsCreated: ethers.BigNumberish = await this.contract.getTotalGiftCardsCreated();
+    return totalGiftCardsCreated.toString();
+  }
+
+  // Get the list of gift cards created by a specific user
+  async getUserCreatedGiftCards(userAddress: string): Promise<number[]> {
+    return await this.contract.getUserCreatedGiftCards(userAddress);
+  }
+
+  // Get the list of gift cards redeemed by a specific user
+  async getUserRedeemedGiftCards(userAddress: string): Promise<number[]> {
+    return await this.contract.getUserRedeemedGiftCards(userAddress);
+  }
 }

@@ -32,6 +32,13 @@ export interface DeGiftContract {
 
   getGiftDetails: (giftId: number) => Promise<GiftCard>;
 
+  // New functions added
+  getTotalGiftCardsCreated: () => Promise<ethers.BigNumberish>;
+
+  getUserCreatedGiftCards: (userAddress: string) => Promise<number[]>;
+
+  getUserRedeemedGiftCards: (userAddress: string) => Promise<number[]>;
+
   filters: {
     GiftCreated: (
       giftId?: number | null,
@@ -68,6 +75,10 @@ export const getDeGiftContract = (
     "function redeemGift(uint256 giftId)",
     "function refundGift(uint256 giftId)",
     "function getGiftDetails(uint256 giftId) view returns (tuple(address sender, address recipient, uint256 amount, address tokenAddress, string metadataURI, bool redeemed, uint8 tokenType, uint256 expiration))",
+    "function getTotalGiftCardsCreated() view returns (uint256)",
+    "function getUserCreatedGiftCards(address userAddress) view returns (uint256[])",
+    "function getUserRedeemedGiftCards(address userAddress) view returns (uint256[])",
+
     "event GiftCreated(uint256 indexed giftId, address indexed sender, address recipient, uint256 amount, address tokenAddress, string metadataURI, uint256 expiration)",
     "event GiftRedeemed(uint256 indexed giftId, address indexed recipient, uint256 amount, address tokenAddress)",
     "event GiftRefunded(uint256 indexed giftId, address indexed sender, uint256 amount, address tokenAddress)",
