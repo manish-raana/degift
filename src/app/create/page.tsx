@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Gift, Sparkles, ArrowRight, Loader2, Check, PartyPopper, Star, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GiftTheme, getThemesByOccasion } from "@/lib/themes";
+import { useTheme } from "next-themes";
+import { MagicCard } from "@/components/magic-card";
 
 export default function CreateGift() {
   const [amount, setAmount] = useState("");
@@ -25,6 +27,7 @@ export default function CreateGift() {
   const [messageScore, setMessageScore] = useState(0);
   const [selectedTheme, setSelectedTheme] = useState<GiftTheme | null>(null);
   const [availableThemes, setAvailableThemes] = useState<GiftTheme[]>([]);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const themes = getThemesByOccasion(occasion);
@@ -101,7 +104,7 @@ export default function CreateGift() {
   };
 
   return (
-    <div className="py-8 px-4 w-full border border-blue-500">
+    <div className="py-8 px-4 w-full">
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center justify-center">
@@ -110,7 +113,7 @@ export default function CreateGift() {
         </div>
       )}
       
-      <Card className="w-full max-w-8xl mx-auto relative overflow-hidden border border-red-500">
+      <Card className="w-full max-w-8xl mx-auto relative overflow-hidden">
         <div 
           className="absolute top-0 left-0 h-1 bg-primary transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
@@ -125,7 +128,7 @@ export default function CreateGift() {
         
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 h-14">
+            <TabsList className="grid w-full grid-cols-3 h-18">
               {["details", "message", "preview"].map((step) => (
                 <TabsTrigger
                   key={step}
@@ -211,42 +214,23 @@ export default function CreateGift() {
                       Choose Your Perfect Theme
                     </Label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {availableThemes.map((theme) => (
-                        <button
-                          key={theme.id}
-                          onClick={() => setSelectedTheme(theme)}
-                          className={cn(
-                            "group relative rounded-lg overflow-hidden transition-all duration-300",
-                            "border hover:scale-102 hover:-translate-y-0.5",
-                            selectedTheme?.id === theme.id 
-                              ? "ring-2 ring-primary scale-102 -translate-y-0.5 shadow-lg" 
-                              : "hover:ring-2 hover:ring-primary/50 hover:shadow-md",
-                            "focus:outline-none focus:ring-2 focus:ring-primary"
-                          )}
-                        >
-                          <div className={cn(
-                            "aspect-[3/4] p-2",
-                            theme.background,
-                            "transition-transform duration-300 group-hover:scale-105"
-                          )}>
-                            <div className={cn(
-                              "h-full rounded-md border backdrop-blur-sm",
-                              theme.borderColor,
-                              theme.textColor,
-                              "bg-black/5 dark:bg-white/5",
-                              "flex flex-col items-center justify-between p-3",
-                              "transition-all duration-300 group-hover:bg-black/10 dark:group-hover:bg-white/10"
-                            )}>
-                              <div className="space-y-2 text-center">
+                      {availableThemes.map((_theme) => (
+                        <MagicCard
+                        key={_theme.id}
+                        onClick={() => setSelectedTheme(_theme)}
+                        className="flex items-center flex-col justify-center p-5 cursor-pointer hover:shadow-2xl"
+                        gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
+                      >
+                        <div className="space-y-2 text-center">
                                 <span className="text-2xl transition-transform duration-300 group-hover:scale-110 inline-block">
-                                  {theme.icon}
+                                  {_theme.icon}
                                 </span>
                                 <div>
                                   <h3 className="font-medium text-sm leading-tight mb-0.5">
-                                    {theme.name}
+                                    {_theme.name}
                                   </h3>
                                   <p className="text-xs opacity-80 leading-tight">
-                                    {theme.description}
+                                    {_theme.description}
                                   </p>
                                 </div>
                               </div>
@@ -262,9 +246,8 @@ export default function CreateGift() {
                                   <div className="text-xs font-medium truncate">Gift Card</div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </button>
+                        
+                        </MagicCard>
                       ))}
                     </div>
                   </div>

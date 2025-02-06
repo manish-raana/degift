@@ -1,5 +1,6 @@
 "use client";
 
+import { MagicCard } from "@/components/magic-card";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Gift, Send, Download } from "lucide-react";
@@ -40,7 +41,8 @@ export default function Dashboard() {
               <TabsContent value="sent">
                 <div className="space-y-4">
                   {sentGifts.map((gift) => (
-                    <Card key={gift.id}>
+                    <MagicCard key={gift.id} className="cursor-pointer">
+                     
                       <CardContent className="flex items-center justify-between p-6">
                         <div className="flex items-center gap-4">
                           <Gift className="h-8 w-8 text-muted-foreground" />
@@ -54,7 +56,8 @@ export default function Dashboard() {
                           <p className="text-sm text-muted-foreground">{gift.date}</p>
                         </div>
                       </CardContent>
-                    </Card>
+                    
+                    </MagicCard>
                   ))}
                 </div>
               </TabsContent>
