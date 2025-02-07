@@ -1,391 +1,428 @@
 export type GiftTheme = {
-    id: string;
-    name: string;
-    description: string;
-    background: string;
-    borderColor: string;
-    textColor: string;
-    accentColor: string;
-    icon: string;
-  };
-  
-  export const occasionThemes: Record<string, GiftTheme[]> = {
-    birthday: [
-      {
-        id: "birthday-party",
-        name: "Party Time",
-        description: "Vibrant celebration",
-        background: "bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-pink-500 via-red-500 to-yellow-500",
-        borderColor: "border-pink-300",
-        textColor: "text-white",
-        accentColor: "bg-yellow-400",
-        icon: "🎂"
-      },
-      {
-        id: "birthday-confetti",
-        name: "Confetti",
-        description: "Fun & playful",
-        background: "bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-yellow-400 via-pink-500 to-purple-500",
-        borderColor: "border-yellow-300",
-        textColor: "text-white",
-        accentColor: "bg-yellow-400",
-        icon: "🎉"
-      },
-      {
-        id: "birthday-elegant",
-        name: "Elegant",
-        description: "Sophisticated",
-        background: "bg-gradient-to-br from-rose-100 to-teal-100",
-        borderColor: "border-rose-200",
-        textColor: "text-gray-900",
-        accentColor: "bg-rose-500",
-        icon: "✨"
-      },
-      {
-        id: "birthday-neon",
-        name: "Neon Glow",
-        description: "Electric vibes",
-        background: "bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 via-blue-500 to-purple-600",
-        borderColor: "border-blue-400",
-        textColor: "text-white",
-        accentColor: "bg-sky-400",
-        icon: "🎈"
-      },
-      {
-        id: "birthday-pastel",
-        name: "Pastel Dream",
-        description: "Soft & sweet",
-        background: "bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200",
-        borderColor: "border-purple-200",
-        textColor: "text-gray-900",
-        accentColor: "bg-purple-400",
-        icon: "🎀"
-      },
-      {
-        id: "birthday-cosmic",
-        name: "Cosmic Party",
-        description: "Out of this world",
-        background: "bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-purple-900 via-indigo-900 to-black",
-        borderColor: "border-purple-500",
-        textColor: "text-white",
-        accentColor: "bg-indigo-500",
-        icon: "🌟"
-      }
-    ],
-    valentine: [
-      {
-        id: "valentine-romantic",
-        name: "Romance",
-        description: "Classic love",
-        background: "bg-gradient-to-br from-red-400 via-pink-500 to-rose-500",
-        borderColor: "border-pink-300",
-        textColor: "text-white",
-        accentColor: "bg-red-400",
-        icon: "❤️"
-      },
-      {
-        id: "valentine-sweet",
-        name: "Sweet Love",
-        description: "Gentle hearts",
-        background: "bg-gradient-to-r from-pink-100 via-red-100 to-rose-100",
-        borderColor: "border-pink-200",
-        textColor: "text-gray-900",
-        accentColor: "bg-pink-400",
-        icon: "💝"
-      },
-      {
-        id: "valentine-modern",
-        name: "Modern Love",
-        description: "Contemporary",
-        background: "bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-fuchsia-700 via-pink-700 to-red-700",
-        borderColor: "border-red-400",
-        textColor: "text-white",
-        accentColor: "bg-fuchsia-500",
-        icon: "💖"
-      },
-      {
-        id: "valentine-sunset",
-        name: "Love Sunset",
-        description: "Warm glow",
-        background: "bg-gradient-to-bl from-rose-300 via-pink-300 to-purple-400",
-        borderColor: "border-rose-300",
-        textColor: "text-white",
-        accentColor: "bg-rose-400",
-        icon: "💕"
-      },
-      {
-        id: "valentine-passion",
-        name: "Passion",
-        description: "Deep love",
-        background: "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-700 via-pink-700 to-purple-800",
-        borderColor: "border-red-500",
-        textColor: "text-white",
-        accentColor: "bg-red-500",
-        icon: "💘"
-      },
-      {
-        id: "valentine-dreamy",
-        name: "Love Dream",
-        description: "Ethereal feel",
-        background: "bg-gradient-to-r from-rose-200 via-purple-200 to-pink-200",
-        borderColor: "border-purple-300",
-        textColor: "text-gray-900",
-        accentColor: "bg-purple-400",
-        icon: "🌸"
-      }
-    ],
-    christmas: [
-      {
-        id: "christmas-classic",
-        name: "Classic",
-        description: "Traditional",
-        background: "bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-red-700 via-green-700 to-red-700",
-        borderColor: "border-yellow-300",
-        textColor: "text-white",
-        accentColor: "bg-yellow-400",
-        icon: "🎄"
-      },
-      {
-        id: "christmas-frost",
-        name: "Winter Frost",
-        description: "Icy cool",
-        background: "bg-gradient-to-br from-blue-100 via-cyan-200 to-white",
-        borderColor: "border-blue-200",
-        textColor: "text-gray-900",
-        accentColor: "bg-blue-400",
-        icon: "❄️"
-      },
-      {
-        id: "christmas-gold",
-        name: "Golden",
-        description: "Luxurious",
-        background: "bg-gradient-to-r from-amber-500 via-yellow-600 to-amber-500",
-        borderColor: "border-yellow-400",
-        textColor: "text-white",
-        accentColor: "bg-yellow-500",
-        icon: "⭐"
-      },
-      {
-        id: "christmas-aurora",
-        name: "Aurora",
-        description: "Northern lights",
-        background: "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-300 via-blue-500 to-purple-600",
-        borderColor: "border-green-300",
-        textColor: "text-white",
-        accentColor: "bg-green-400",
-        icon: "✨"
-      },
-      {
-        id: "christmas-cozy",
-        name: "Cozy",
-        description: "Warm & inviting",
-        background: "bg-gradient-to-br from-red-200 via-red-300 to-amber-200",
-        borderColor: "border-red-300",
-        textColor: "text-gray-900",
-        accentColor: "bg-red-500",
-        icon: "🎁"
-      },
-      {
-        id: "christmas-night",
-        name: "Silent Night",
-        description: "Peaceful eve",
-        background: "bg-[conic-gradient(at_bottom,_var(--tw-gradient-stops))] from-blue-900 via-purple-900 to-blue-900",
-        borderColor: "border-blue-500",
-        textColor: "text-white",
-        accentColor: "bg-blue-500",
-        icon: "🌙"
-      }
-    ],
-    graduation: [
-      {
-        id: "graduation-classic",
-        name: "Classic",
-        description: "Traditional",
-        background: "bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-900",
-        borderColor: "border-yellow-300",
-        textColor: "text-white",
-        accentColor: "bg-yellow-400",
-        icon: "🎓"
-      },
-      {
-        id: "graduation-modern",
-        name: "Modern",
-        description: "Contemporary",
-        background: "bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-700 via-slate-700 to-sky-700",
-        borderColor: "border-sky-300",
-        textColor: "text-white",
-        accentColor: "bg-sky-400",
-        icon: "📚"
-      },
-      {
-        id: "graduation-success",
-        name: "Success",
-        description: "Achievement",
-        background: "bg-gradient-to-r from-emerald-500 to-teal-500",
-        borderColor: "border-emerald-300",
-        textColor: "text-white",
-        accentColor: "bg-emerald-400",
-        icon: "🌟"
-      },
-      {
-        id: "graduation-elegant",
-        name: "Elegant",
-        description: "Sophisticated",
-        background: "bg-gradient-to-br from-gray-100 to-gray-300",
-        borderColor: "border-gray-300",
-        textColor: "text-gray-900",
-        accentColor: "bg-gray-800",
-        icon: "✨"
-      },
-      {
-        id: "graduation-future",
-        name: "Future",
-        description: "New horizons",
-        background: "bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-purple-700 via-blue-700 to-cyan-700",
-        borderColor: "border-purple-300",
-        textColor: "text-white",
-        accentColor: "bg-purple-500",
-        icon: "🚀"
-      },
-      {
-        id: "graduation-wisdom",
-        name: "Wisdom",
-        description: "Knowledge",
-        background: "bg-gradient-to-br from-amber-700 via-orange-700 to-red-700",
-        borderColor: "border-amber-300",
-        textColor: "text-white",
-        accentColor: "bg-amber-500",
-        icon: "📖"
-      }
-    ],
-    wedding: [
-      {
-        id: "wedding-elegant",
-        name: "Elegant",
-        description: "Timeless",
-        background: "bg-gradient-to-r from-rose-100 via-pink-100 to-rose-100",
-        borderColor: "border-rose-200",
-        textColor: "text-gray-900",
-        accentColor: "bg-rose-400",
-        icon: "💒"
-      },
-      {
-        id: "wedding-golden",
-        name: "Golden",
-        description: "Luxurious",
-        background: "bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-200 via-yellow-200 to-amber-200",
-        borderColor: "border-amber-300",
-        textColor: "text-gray-900",
-        accentColor: "bg-amber-500",
-        icon: "💍"
-      },
-      {
-        id: "wedding-silver",
-        name: "Silver",
-        description: "Modern",
-        background: "bg-gradient-to-br from-gray-200 via-gray-100 to-white",
-        borderColor: "border-gray-300",
-        textColor: "text-gray-900",
-        accentColor: "bg-gray-500",
-        icon: "✨"
-      },
-      {
-        id: "wedding-romance",
-        name: "Romance",
-        description: "Love & joy",
-        background: "bg-gradient-to-r from-pink-200 via-red-200 to-pink-200",
-        borderColor: "border-pink-300",
-        textColor: "text-gray-900",
-        accentColor: "bg-pink-400",
-        icon: "💝"
-      },
-      {
-        id: "wedding-royal",
-        name: "Royal",
-        description: "Majestic",
-        background: "bg-[conic-gradient(at_right,_var(--tw-gradient-stops))] from-purple-900 via-indigo-900 to-violet-900",
-        borderColor: "border-purple-300",
-        textColor: "text-white",
-        accentColor: "bg-purple-500",
-        icon: "👑"
-      },
-      {
-        id: "wedding-nature",
-        name: "Garden",
-        description: "Natural beauty",
-        background: "bg-gradient-to-br from-green-200 via-emerald-200 to-teal-200",
-        borderColor: "border-green-300",
-        textColor: "text-gray-900",
-        accentColor: "bg-emerald-500",
-        icon: "🌿"
-      }
-    ],
-    other: [
-      {
-        id: "other-light",
-        name: "Light",
-        description: "Clean & minimal",
-        background: "bg-gradient-to-br from-gray-50 to-gray-100",
-        borderColor: "border-gray-200",
-        textColor: "text-gray-900",
-        accentColor: "bg-blue-500",
-        icon: "✨"
-      },
-      {
-        id: "other-dark",
-        name: "Dark",
-        description: "Bold & modern",
-        background: "bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-gray-900 via-slate-900 to-black",
-        borderColor: "border-gray-700",
-        textColor: "text-white",
-        accentColor: "bg-purple-500",
-        icon: "🌙"
-      },
-      {
-        id: "other-ocean",
-        name: "Ocean",
-        description: "Calming waves",
-        background: "bg-gradient-to-br from-cyan-400 via-blue-400 to-indigo-400",
-        borderColor: "border-blue-300",
-        textColor: "text-white",
-        accentColor: "bg-cyan-500",
-        icon: "🌊"
-      },
-      {
-        id: "other-sunset",
-        name: "Sunset",
-        description: "Warm glow",
-        background: "bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-orange-500 via-red-500 to-purple-500",
-        borderColor: "border-orange-300",
-        textColor: "text-white",
-        accentColor: "bg-orange-500",
-        icon: "🌅"
-      },
-      {
-        id: "other-forest",
-        name: "Forest",
-        description: "Natural beauty",
-        background: "bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600",
-        borderColor: "border-green-400",
-        textColor: "text-white",
-        accentColor: "bg-emerald-500",
-        icon: "🌲"
-      },
-      {
-        id: "other-cosmic",
-        name: "Cosmic",
-        description: "Space vibes",
-        background: "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900 via-indigo-900 to-black",
-        borderColor: "border-purple-500",
-        textColor: "text-white",
-        accentColor: "bg-indigo-500",
-        icon: "🌌"
-      }
-    ]
-  };
-  
-  export const defaultTheme: GiftTheme = occasionThemes.other[0];
-  
-  export function getThemesByOccasion(occasion: string): GiftTheme[] {
-    return occasionThemes[occasion] || occasionThemes.other;
-  }
+  id: string;
+  name: string;
+  description: string;
+  background: string;
+  borderColor: string;
+  textColor: string;
+  accentColor: string;
+  icon: string;
+  preview?: string;
+};
+
+export const occasionThemes: Record<string, GiftTheme[]> = {
+  birthday: [
+    {
+      id: 'birthday-party',
+      name: 'Birthday Party',
+      description: 'Colorful and festive celebration',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819')`,
+      borderColor: 'border-purple-300',
+      textColor: 'text-white',
+      accentColor: 'bg-yellow-400',
+      icon: '🎂',
+    },
+    {
+      id: 'birthday-sparkle',
+      name: 'Birthday Sparkle',
+      description: 'Elegant and sparkly design',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1513151233558-d860c5398176')`,
+      borderColor: 'border-blue-300',
+      textColor: 'text-white',
+      accentColor: 'bg-blue-300',
+      icon: '✨',
+    },
+    {
+      id: 'birthday-balloon',
+      name: 'Balloon Fiesta',
+      description: 'Vibrant balloon celebration',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d')`,
+      borderColor: 'border-pink-300',
+      textColor: 'text-white',
+      accentColor: 'bg-pink-400',
+      icon: '🎈',
+    },
+    {
+      id: 'birthday-confetti',
+      name: 'Confetti Blast',
+      description: 'Explosive celebration vibes',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819')`,
+      borderColor: 'border-indigo-300',
+      textColor: 'text-white',
+      accentColor: 'bg-indigo-400',
+      icon: '🎉',
+    },
+    {
+      id: 'birthday-cake',
+      name: 'Sweet Celebration',
+      description: 'Delightful cake theme',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec')`,
+      borderColor: 'border-rose-300',
+      textColor: 'text-white',
+      accentColor: 'bg-rose-400',
+      icon: '🧁',
+    },
+    {
+      id: 'birthday-lights',
+      name: 'Party Lights',
+      description: 'Magical light show',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30')`,
+      borderColor: 'border-amber-300',
+      textColor: 'text-white',
+      accentColor: 'bg-amber-400',
+      icon: '💫',
+    },
+  ],
+  valentine: [
+    {
+      id: 'valentine-romance',
+      name: 'Classic Romance',
+      description: 'Timeless love theme',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1518199266791-5375a83190b7')`,
+      borderColor: 'border-red-300',
+      textColor: 'text-white',
+      accentColor: 'bg-red-400',
+      icon: '❤️',
+    },
+    {
+      id: 'valentine-roses',
+      name: 'Rose Garden',
+      description: 'Romantic rose theme',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00')`,
+      borderColor: 'border-pink-300',
+      textColor: 'text-white',
+      accentColor: 'bg-pink-400',
+      icon: '🌹',
+    },
+    {
+      id: 'valentine-heart',
+      name: 'Heart & Soul',
+      description: 'Pure love expression',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1516589091380-5d8e87df6999')`,
+      borderColor: 'border-rose-300',
+      textColor: 'text-white',
+      accentColor: 'bg-rose-400',
+      icon: '💝',
+    },
+    {
+      id: 'valentine-sunset',
+      name: 'Love Sunset',
+      description: 'Romantic evening vibes',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963')`,
+      borderColor: 'border-orange-300',
+      textColor: 'text-white',
+      accentColor: 'bg-orange-400',
+      icon: '🌅',
+    },
+    {
+      id: 'valentine-chocolate',
+      name: 'Sweet Love',
+      description: 'Chocolate romance',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1549007994-cb92caebd54b')`,
+      borderColor: 'border-amber-300',
+      textColor: 'text-white',
+      accentColor: 'bg-amber-400',
+      icon: '🍫',
+    },
+    {
+      id: 'valentine-flowers',
+      name: 'Floral Love',
+      description: 'Blooming romance',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00')`,
+      borderColor: 'border-purple-300',
+      textColor: 'text-white',
+      accentColor: 'bg-purple-400',
+      icon: '💐',
+    },
+  ],
+  christmas: [
+    {
+      id: 'christmas-classic',
+      name: 'Classic Christmas',
+      description: 'Traditional holiday spirit',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1543589077-47d81606c1bf')`,
+      borderColor: 'border-red-300',
+      textColor: 'text-white',
+      accentColor: 'bg-red-400',
+      icon: '🎄',
+    },
+    {
+      id: 'christmas-snow',
+      name: 'Winter Wonder',
+      description: 'Snowy Christmas scene',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('https://images.unsplash.com/photo-1482517967863-00e15c9b44be')`, // New winter scene
+      borderColor: 'border-blue-300',
+      textColor: 'text-white',
+      accentColor: 'bg-blue-400',
+      icon: '❄️',
+    },
+    {
+      id: 'christmas-gifts',
+      name: 'Gift Time',
+      description: 'Festive presents',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1512389142860-9c449e58a543')`,
+      borderColor: 'border-green-300',
+      textColor: 'text-white',
+      accentColor: 'bg-green-400',
+      icon: '🎁',
+    },
+    {
+      id: 'christmas-cozy',
+      name: 'Cozy Christmas',
+      description: 'Warm holiday feeling',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1479722842840-c0a823bd0cd6')`,
+      borderColor: 'border-amber-300',
+      textColor: 'text-white',
+      accentColor: 'bg-amber-400',
+      icon: '🕯️',
+    },
+    {
+      id: 'christmas-lights',
+      name: 'Holiday Lights',
+      description: 'Magical illumination',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1576692155415-95f820a2c4c1')`,
+      borderColor: 'border-yellow-300',
+      textColor: 'text-white',
+      accentColor: 'bg-yellow-400',
+      icon: '✨',
+    },
+    {
+      id: 'christmas-night',
+      name: 'Silent Night',
+      description: 'Peaceful evening scene',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url('https://images.unsplash.com/photo-1543258103-a62bdc069871')`, // New winter night scene
+      borderColor: 'border-indigo-300',
+      textColor: 'text-white',
+      accentColor: 'bg-indigo-400',
+      icon: '🌙',
+    },
+  ],
+  graduation: [
+    {
+      id: 'graduation-classic',
+      name: 'Classic Grad',
+      description: 'Traditional achievement',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1')`,
+      borderColor: 'border-blue-300',
+      textColor: 'text-white',
+      accentColor: 'bg-blue-400',
+      icon: '🎓',
+    },
+    {
+      id: 'graduation-future',
+      name: 'Bright Future',
+      description: 'New beginnings',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1532649538693-f3a2ec1bf8bd')`,
+      borderColor: 'border-purple-300',
+      textColor: 'text-white',
+      accentColor: 'bg-purple-400',
+      icon: '🚀',
+    },
+    {
+      id: 'graduation-success',
+      name: 'Success Path',
+      description: 'Achievement celebration',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5')`,
+      borderColor: 'border-emerald-300',
+      textColor: 'text-white',
+      accentColor: 'bg-emerald-400',
+      icon: '⭐',
+    },
+    {
+      id: 'graduation-library',
+      name: 'Scholar',
+      description: 'Academic excellence',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f')`,
+      borderColor: 'border-amber-300',
+      textColor: 'text-white',
+      accentColor: 'bg-amber-400',
+      icon: '📚',
+    },
+    {
+      id: 'graduation-celebration',
+      name: 'Celebration',
+      description: 'Joyful achievement',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f')`,
+      borderColor: 'border-rose-300',
+      textColor: 'text-white',
+      accentColor: 'bg-rose-400',
+      icon: '🎉',
+    },
+    {
+      id: 'graduation-wisdom',
+      name: 'Wisdom',
+      description: 'Knowledge & growth',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1546410531-bb4caa6b424d')`,
+      borderColor: 'border-cyan-300',
+      textColor: 'text-white',
+      accentColor: 'bg-cyan-400',
+      icon: '🌟',
+    },
+  ],
+  wedding: [
+    {
+      id: 'wedding-elegant',
+      name: 'Elegant',
+      description: 'Timeless romance',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1519225421980-715cb0215aed')`,
+      borderColor: 'border-rose-300',
+      textColor: 'text-white',
+      accentColor: 'bg-rose-400',
+      icon: '💒',
+    },
+    {
+      id: 'wedding-floral',
+      name: 'Floral Dream',
+      description: 'Blooming love',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1519741347686-c1e0aadf4611')`,
+      borderColor: 'border-pink-300',
+      textColor: 'text-white',
+      accentColor: 'bg-pink-400',
+      icon: '💐',
+    },
+    {
+      id: 'wedding-golden',
+      name: 'Golden Romance',
+      description: 'Luxurious celebration',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622')`,
+      borderColor: 'border-amber-300',
+      textColor: 'text-white',
+      accentColor: 'bg-amber-400',
+      icon: '💍',
+    },
+    {
+      id: 'wedding-rustic',
+      name: 'Rustic Love',
+      description: 'Natural beauty',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1510076857177-7470076d4098')`,
+      borderColor: 'border-stone-300',
+      textColor: 'text-white',
+      accentColor: 'bg-stone-400',
+      icon: '🌿',
+    },
+    {
+      id: 'wedding-classic',
+      name: 'Classic White',
+      description: 'Traditional elegance',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1517722014278-c256a91a6fba')`,
+      borderColor: 'border-slate-300',
+      textColor: 'text-white',
+      accentColor: 'bg-slate-400',
+      icon: '👰',
+    },
+    {
+      id: 'wedding-romantic',
+      name: 'Romance',
+      description: 'Pure love celebration',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8')`,
+      borderColor: 'border-red-300',
+      textColor: 'text-white',
+      accentColor: 'bg-red-400',
+      icon: '❤️',
+    },
+  ],
+  other: [
+    {
+      id: 'other-celebration',
+      name: 'Celebration',
+      description: 'Special moments',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1513151233558-d860c5398176')`,
+      borderColor: 'border-purple-300',
+      textColor: 'text-white',
+      accentColor: 'bg-purple-400',
+      icon: '🎉',
+    },
+    {
+      id: 'other-nature',
+      name: 'Nature',
+      description: 'Natural beauty',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1501854140801-50d01698950b')`,
+      borderColor: 'border-green-300',
+      textColor: 'text-white',
+      accentColor: 'bg-green-400',
+      icon: '🌿',
+    },
+    {
+      id: 'other-minimal',
+      name: 'Minimal',
+      description: 'Clean & simple',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1507878866276-a947ef722fee')`,
+      borderColor: 'border-gray-300',
+      textColor: 'text-white',
+      accentColor: 'bg-gray-400',
+      icon: '✨',
+    },
+    {
+      id: 'other-modern',
+      name: 'Modern',
+      description: 'Contemporary style',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1507842217343-583bb7270b66')`,
+      borderColor: 'border-zinc-300',
+      textColor: 'text-white',
+      accentColor: 'bg-zinc-400',
+      icon: '🎯',
+    },
+    {
+      id: 'other-abstract',
+      name: 'Abstract',
+      description: 'Artistic design',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1541701494587-cb58502866ab')`,
+      borderColor: 'border-indigo-300',
+      textColor: 'text-white',
+      accentColor: 'bg-indigo-400',
+      icon: '🎨',
+    },
+    {
+      id: 'other-classic',
+      name: 'Classic',
+      description: 'Timeless style',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('https://images.unsplash.com/photo-1492551557933-34265f7af79e')`,
+      borderColor: 'border-slate-300',
+      textColor: 'text-white',
+      accentColor: 'bg-slate-400',
+      icon: '🎭',
+    },
+  ],
+};
+
+export const defaultTheme: GiftTheme = occasionThemes.other[0];
+
+export function getThemesByOccasion(occasion: string): GiftTheme[] {
+  return occasionThemes[occasion] || occasionThemes.other;
+}
