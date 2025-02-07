@@ -29,8 +29,8 @@ export function WalletConnect() {
             className="px-4 pt-3 pb-2 hover:bg-gray-800"
             hasCopyAddressOnClick
           >
-            <Avatar />
-            <Name />
+            {/* <Avatar /> */}
+            {/* <Name /> */}
             <Address />
             <EthBalance />
           </Identity>
@@ -43,7 +43,6 @@ export function WalletConnect() {
           </WalletDropdownLink>
           <WalletDropdownDisconnect className='hover:bg-gray-800' />
         </WalletDropdown>
-       
       </Wallet>
     </div>
   );

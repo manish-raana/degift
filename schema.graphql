@@ -17,3 +17,47 @@ type GiftCard @entity {
   redeemedAt: BigInt
   refundedAt: BigInt
 }
+type GiftCreated @entity(immutable: true) {
+  id: Bytes!
+  giftId: BigInt! # uint256
+  sender: Bytes! # address
+  recipient: Bytes! # address
+  amount: BigInt! # uint256
+  tokenAddress: Bytes! # address
+  metadataURI: String! # string
+  expiration: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type GiftRedeemed @entity(immutable: true) {
+  id: Bytes!
+  giftId: BigInt! # uint256
+  recipient: Bytes! # address
+  amount: BigInt! # uint256
+  tokenAddress: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type GiftRefunded @entity(immutable: true) {
+  id: Bytes!
+  giftId: BigInt! # uint256
+  sender: Bytes! # address
+  amount: BigInt! # uint256
+  tokenAddress: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

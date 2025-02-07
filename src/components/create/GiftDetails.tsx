@@ -1,28 +1,50 @@
+import { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ThemeCard } from '@/components/ThemeCard';
-import { Palette, ArrowRight } from 'lucide-react';
+import { Palette, ArrowRight, Loader2 } from 'lucide-react';
 import { GiftTheme } from '@/lib/themes';
+import { validateAddressOrENS } from '@/lib/validate';
+import debounce from 'lodash/debounce';
 import { cn } from '@/lib/utils';
 
-interface GiftDetailsProps {
+export interface GiftDetailsProps {
+  // Amount related props
   amount: string;
   setAmount: (value: string) => void;
+  isAmountTouched: boolean;
+  setIsAmountTouched: (value: boolean) => void;
+
+  // Currency related props
   currency: string;
   setCurrency: (value: string) => void;
+
+  // Occasion related props
   occasion: string;
   setOccasion: (value: string) => void;
+
+  // Theme related props
   selectedTheme: GiftTheme | null;
   setSelectedTheme: (theme: GiftTheme) => void;
   availableThemes: GiftTheme[];
-  onPreview: (value: boolean) => void;
-  onNext: () => void;
-  isValid: boolean;
-  isAmountTouched: boolean;
-  setIsAmountTouched: (value: boolean) => void;
-  setPreviewTheme: (value: GiftTheme) => void;
+  setPreviewTheme: (theme: GiftTheme) => void;
   setShowPreview: (value: boolean) => void;
+
+  // Recipient related props
+  recipient: string;
+  setRecipient: (value: string) => void;
+  recipientAddress: string | null;
+  setRecipientAddress: (value: string | null) => void;
+  isRecipientTouched: boolean;
+  setIsRecipientTouched: (value: boolean) => void;
+  isRecipientValid: boolean;
+  recipientError?: string;
+  setRecipientError: (error?: string) => void;
+
+  // Form validation and navigation
+  isValid: boolean;
+  onNext: () => void;
 }
 
 export default function GiftDetails({
@@ -40,9 +62,53 @@ export default function GiftDetails({
   onNext,
   isValid,
   isAmountTouched,
+  recipient,
+  setRecipient,
+  recipientAddress,
+  setRecipientAddress,
+  isRecipientTouched,
+  setIsRecipientTouched,
+  isRecipientValid,
+  recipientError,
+  setRecipientError,
 }: GiftDetailsProps) {
+  const [validating, setValidating] = useState(false);
+
+  // Debounced validation function
+  const debouncedValidation = useCallback(
+    debounce(async (value: string) => {
+      if (!value) {
+        setRecipientAddress(null);
+        setRecipientError('Address is required');
+        setValidating(false);
+        return;
+      }
+
+      try {
+        const result = await validateAddressOrENS(value);
+        setRecipientAddress(result.address);
+        setRecipientError(result.error);
+      } catch (error: any) {
+        setRecipientAddress(null);
+        setRecipientError('Error validating address');
+        console.log('err: ', error);
+      } finally {
+        setValidating(false);
+      }
+    }, 500),
+    [],
+  );
+
+  const handleRecipientChange = (value: string) => {
+    setRecipient(value);
+    setIsRecipientTouched(true);
+    setValidating(true);
+    debouncedValidation(value);
+  };
+
   return (
     <div className="mx-auto grid max-w-3xl gap-6">
+      {/* Amount Input */}
       <div className="space-y-2">
         <Label htmlFor="amount">Amount</Label>
         <div className="flex gap-2">
@@ -77,6 +143,38 @@ export default function GiftDetails({
         )}
       </div>
 
+      {/* Recipient Input */}
+      <div className="space-y-2">
+        <Label htmlFor="recipient">Recipient</Label>
+        <div className="relative">
+          <Input
+            id="recipient"
+            placeholder="0x... or ENS name (e.g., vitalik.eth)"
+            value={recipient}
+            onChange={e => handleRecipientChange(e.target.value)}
+            className={cn(
+              'pr-10 text-lg',
+              isRecipientTouched && !isRecipientValid && 'border-destructive',
+              isRecipientValid && 'border-primary',
+            )}
+          />
+          {validating && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            </div>
+          )}
+        </div>
+        {isRecipientTouched && !isRecipientValid && recipientError && (
+          <p className="mt-1 text-sm text-destructive">{recipientError}</p>
+        )}
+        {recipientAddress && (
+          <p className="mt-1 text-sm text-muted-foreground">
+            Resolved address: {recipientAddress}
+          </p>
+        )}
+      </div>
+
+      {/* Occasion Select */}
       <div className="space-y-2">
         <Label htmlFor="occasion">Occasion</Label>
         <select
@@ -94,6 +192,7 @@ export default function GiftDetails({
         </select>
       </div>
 
+      {/* Theme Selection */}
       <div className="space-y-4">
         <Label className="flex items-center gap-2 text-base font-medium text-muted-foreground">
           <Palette className="h-4 w-4" />
@@ -107,7 +206,7 @@ export default function GiftDetails({
               isSelected={selectedTheme?.id === theme.id}
               onSelect={setSelectedTheme}
               onPreview={theme => {
-                setPreviewTheme(theme); // Set the theme to preview
+                setPreviewTheme(theme);
                 setShowPreview(true);
               }}
             />
@@ -116,10 +215,13 @@ export default function GiftDetails({
       </div>
 
       <Button
-        className={cn('mt-4 w-full', isValid && 'animate-pulse')}
+        className={cn(
+          'mt-4 w-full',
+          isValid && isRecipientValid && 'animate-pulse',
+        )}
         size="lg"
         onClick={onNext}
-        disabled={!isValid}
+        disabled={!isValid || !isRecipientValid || validating}
       >
         Next
         <ArrowRight className="ml-2 h-4 w-4" />

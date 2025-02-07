@@ -19,13 +19,17 @@ export function Providers(props: {
     <WagmiProvider config={config} initialState={props.initialState}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
+         
           config={{
             appearance: {
                 name: 'DeGift',
-                logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
-                mode: 'auto',
-                theme: 'default',
+                logo: 'https://res.cloudinary.com/dpxb3nqwd/image/upload/v1738945481/wiejuxpnlsg03wcjzm9x.png',
+                mode: 'dark',
+                theme: 'base',
               },
+               wallet:{
+                display:"modal"
+               }
             }}
           apiKey={apiKey}
           chain={baseSepolia} // add baseSepolia for testing

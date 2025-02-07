@@ -36,6 +36,10 @@ export default function CreateGift() {
   const [availableThemes, setAvailableThemes] = useState<GiftTheme[]>([]);
   const [showPreview, setShowPreview] = useState(false);
   const [previewTheme, setPreviewTheme] = useState<GiftTheme | null>(null);
+  const [recipient, setRecipient] = useState('');
+  const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
+  const [isRecipientTouched, setIsRecipientTouched] = useState(false);
+  const [recipientError, setRecipientError] = useState<string>();
 
   useEffect(() => {
     const themes = getThemesByOccasion(occasion);
@@ -44,7 +48,11 @@ export default function CreateGift() {
   }, [occasion]);
 
   const isDetailsValid =
-    amount !== '' && parseFloat(amount) > 0 && selectedTheme !== null;
+    amount !== '' &&
+    parseFloat(amount) > 0 &&
+    selectedTheme !== null &&
+    recipientAddress !== null;
+
   const isMessageValid = message.length >= 10;
   const canProceed = isDetailsValid && isMessageValid;
 
@@ -87,12 +95,14 @@ export default function CreateGift() {
   };
 
   const handleCreateCard = async () => {
+    if (!recipientAddress) return;
     const giftMetadata = {
       amount,
       currency,
       message,
       occasion,
       theme: selectedTheme,
+      recipient: recipientAddress,
     };
 
     console.log('giftMetadata: ', giftMetadata);
@@ -147,7 +157,7 @@ export default function CreateGift() {
             abi: DeGift_ABI,
             functionName: 'createGift',
             args: [
-              '0x27065e39cf82616B221bd8B72CC7De6b1d51FeA0', // Recipient address
+              recipientAddress, // Recipient address
               value, // Gift amount (in wei or token units)
               tokenAddress, // Token address (ZeroAddress for ETH)
               data.cid, // Metadata CID from Pinata
@@ -248,20 +258,33 @@ export default function CreateGift() {
                 <GiftDetails
                   amount={amount}
                   setAmount={setAmount}
+                  isAmountTouched={isAmountTouched}
+                  setIsAmountTouched={setIsAmountTouched}
+                  // Currency props
                   currency={currency}
                   setCurrency={setCurrency}
+                  // Occasion props
                   occasion={occasion}
                   setOccasion={setOccasion}
+                  // Theme props
                   selectedTheme={selectedTheme}
                   setSelectedTheme={setSelectedTheme}
                   availableThemes={availableThemes}
-                  onPreview={setShowPreview}
-                  onNext={handleNext}
-                  isValid={isDetailsValid}
-                  isAmountTouched={isAmountTouched}
-                  setIsAmountTouched={setIsAmountTouched}
                   setPreviewTheme={setPreviewTheme}
                   setShowPreview={setShowPreview}
+                  // Recipient props
+                  recipient={recipient}
+                  setRecipient={setRecipient}
+                  recipientAddress={recipientAddress}
+                  setRecipientAddress={setRecipientAddress}
+                  isRecipientTouched={isRecipientTouched}
+                  setIsRecipientTouched={setIsRecipientTouched}
+                  isRecipientValid={!!recipientAddress}
+                  recipientError={recipientError}
+                  setRecipientError={setRecipientError}
+                  // Form props
+                  isValid={isDetailsValid}
+                  onNext={handleNext}
                 />
               </TabsContent>
 

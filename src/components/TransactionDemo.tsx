@@ -65,7 +65,7 @@ export default function TransactionDemo({
         >
           <TransactionButton
             text=" Create Gift Card"
-            className="mt-5 cursor-pointer border-2 bg-transparent hover:bg-gray-200"
+            className="mt-5 cursor-pointer bg-black dark:bg-transparent border-2 "
           />
           <TransactionSponsor />
           <TransactionStatus>
