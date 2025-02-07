@@ -1,0 +1,19 @@
+type GiftCard @entity {
+  id: ID!
+  sender: Bytes!
+  recipient: Bytes!
+  amount: BigInt!
+  tokenAddress: Bytes!
+  metadataURI: String!
+  redeemed: Boolean!
+  expiration: BigInt!
+
+  # Additional fields you might want to add
+  createdAt: BigInt!
+  status: String! # ACTIVE, REDEEMED, REFUNDED, EXPIRED
+  tokenType: Int! # 0 for ETH, 1 for ERC20
+
+  # Timestamps for different actions
+  redeemedAt: BigInt
+  refundedAt: BigInt
+}

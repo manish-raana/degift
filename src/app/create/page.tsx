@@ -16,6 +16,9 @@ import { ThemePreviewModal } from '@/components/ThemePreviewModal';
 import GiftDetails from '@/components/create/GiftDetails';
 import GiftMessage from '@/components/create/GiftMessage';
 import GiftPreview from '@/components/create/GiftPreview';
+import { DeGift_ABI } from '@/abi/DeGiftContract';
+import { parseUnits, ZeroAddress } from 'ethers';
+import { parseEther } from 'viem';
 
 export default function CreateGift() {
   const [amount, setAmount] = useState('');
@@ -92,6 +95,8 @@ export default function CreateGift() {
       theme: selectedTheme,
     };
 
+    console.log('giftMetadata: ', giftMetadata);
+
     try {
       const response = await fetch('/api/pinata', {
         method: 'POST',
@@ -107,8 +112,58 @@ export default function CreateGift() {
 
       const data = await response.json();
       if (data.success) {
+        console.log('pinata-response-data: ', data);
+        const degiftContractAddress =
+          process.env.NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS!;
+        const expiration = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60; // 1 week from now
+
+        // Token addresses (replace with actual addresses for your network)
+        const tokenAddresses = {
+          eth: ZeroAddress,
+          usdc: '0x0FA8781a83E46826621b3BC094Ea2A0212e71B23', // Replace with actual USDC address
+          usdt: '0x7169D38820dfd117C3FA1f22a697dBA58d90BA06', // Replace with actual USDT address
+        };
+
+        // Token decimals
+        const tokenDecimals = {
+          eth: 18,
+          usdc: 6,
+          usdt: 6,
+        };
+
+        const tokenAddress =
+          tokenAddresses[currency as keyof typeof tokenAddresses];
+        const decimals = tokenDecimals[currency as keyof typeof tokenDecimals];
+
+        // Calculate value based on currency
+        const value =
+          currency === 'eth'
+            ? parseEther(amount)
+            : parseUnits(amount, decimals);
+
+        const calls = [
+          {
+            address: degiftContractAddress,
+            abi: DeGift_ABI,
+            functionName: 'createGift',
+            args: [
+              '0x27065e39cf82616B221bd8B72CC7De6b1d51FeA0', // Recipient address
+              value, // Gift amount (in wei or token units)
+              tokenAddress, // Token address (ZeroAddress for ETH)
+              data.cid, // Metadata CID from Pinata
+              expiration, // Expiration timestamp
+            ],
+            // Only include value for ETH transfers
+            ...(currency === 'eth'
+              ? {
+                  value: value,
+                }
+              : {}),
+          },
+        ];
+        console.log('call:', calls);
         console.log('Gift metadata stored with CID:', data.cid);
-        // Handle success (e.g., redirect to gift page)
+        return calls;
       }
     } catch (error) {
       console.error('Error creating gift card:', error);

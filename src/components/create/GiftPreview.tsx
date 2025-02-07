@@ -1,8 +1,7 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Gift } from 'lucide-react';
 import { GiftTheme } from '@/lib/themes';
 import { cn } from '@/lib/utils';
+import TransactionDemo from '../TransactionDemo';
 
 interface GiftPreviewProps {
   amount: string;
@@ -67,10 +66,11 @@ export default function GiftPreview({
           </div>
         </CardContent>
       </Card>
-      <Button className="mt-6 w-full" size="lg" onClick={onCreateCard}>
+      {/* <Button className="mt-6 w-full" size="lg" onClick={onCreateCard}>
         <Gift className="mr-2 h-5 w-5" />
         Create Gift Card
-      </Button>
+      </Button> */}
+      <TransactionDemo callsCallback={onCreateCard} />
     </div>
   );
 }
