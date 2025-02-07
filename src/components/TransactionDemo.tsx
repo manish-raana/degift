@@ -10,8 +10,7 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import { WalletDefault } from '@coinbase/onchainkit/wallet';
 import { baseSepolia } from 'viem/chains';
-import { useCallback, useRef } from 'react';
-import { Confetti, type ConfettiRef } from '@/components/magicui/confetti';
+import { useCallback } from 'react';
 import confetti from 'canvas-confetti';
 
 export default function TransactionDemo({
@@ -20,7 +19,6 @@ export default function TransactionDemo({
   callsCallback: any;
 }) {
   const { address } = useAccount();
-  const confettiRef = useRef<ConfettiRef>(null);
 
   const handleOnStatus = useCallback((status: LifecycleStatus) => {
     console.log('LifecycleStatus', status);
@@ -65,7 +63,6 @@ export default function TransactionDemo({
           calls={callsCallback}
           onStatus={handleOnStatus}
         >
-          <Confetti ref={confettiRef} className="left-0 top-0 z-10 size-full" />
           <TransactionButton
             text=" Create Gift Card"
             className="mt-5 cursor-pointer border-2 bg-transparent hover:bg-gray-200"
