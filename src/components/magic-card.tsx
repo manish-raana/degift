@@ -11,7 +11,6 @@ interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
   gradientOpacity?: number;
   gradientFrom?: string;
   gradientTo?: string;
-  background?: string;
 }
 
 export function MagicCard({
@@ -22,7 +21,6 @@ export function MagicCard({
   gradientOpacity = 0.8,
   gradientFrom = '#9E7AFF',
   gradientTo = '#FE8BBB',
-  background,
 }: MagicCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(-gradientSize);
@@ -80,33 +78,27 @@ export function MagicCard({
       ref={cardRef}
       className={cn('group relative flex size-full rounded-xl', className)}
     >
-      {/* Apply the theme background here */}
-      <div
-        className={cn(
-          'absolute inset-px z-10 rounded-xl',
-          background || 'bg-background',
-        )}
-      />
+      <div className="absolute inset-px z-10 rounded-xl bg-background" />
       <div className="relative z-30">{children}</div>
       <motion.div
-        className="pointer-events-none absolute inset-px z-20 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-px z-10 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background: useMotionTemplate`
-              radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)
-            `,
+            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)
+          `,
           opacity: gradientOpacity,
         }}
       />
       <motion.div
-        className="pointer-events-none absolute inset-0 z-10 rounded-xl opacity-0 duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-xl bg-border duration-300 group-hover:opacity-100"
         style={{
           background: useMotionTemplate`
-              radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
-                ${gradientFrom},
-                ${gradientTo},
-                transparent 100%
-              )
-            `,
+            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
+              ${gradientFrom},
+              ${gradientTo},
+              hsl(var(--border)) 100%
+            )
+          `,
         }}
       />
     </div>

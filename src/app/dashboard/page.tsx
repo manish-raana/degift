@@ -1,23 +1,104 @@
-"use client";
+'use client';
 
-import { MagicCard } from "@/components/magic-card";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Gift, Send, Download } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { useAccount } from 'wagmi';
+import { MagicCard } from '@/components/magic-card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Gift, Send, Download } from 'lucide-react';
+import { graphqlClient } from '@/lib/graphql';
+import { GET_USER_GIFTS } from '@/lib/queries';
+import { UserGiftsResponse, GiftCard } from '@/types/gift';
+import { formatEther } from 'ethers';
+import { formatDate } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Dashboard() {
-  const sentGifts = [
-    { id: 1, amount: "0.1", currency: "ETH", recipient: "0x1234...5678", status: "claimed", date: "2024-03-20" },
-    { id: 2, amount: "50", currency: "USDC", recipient: "0x8765...4321", status: "pending", date: "2024-03-19" },
-  ];
+  const { address } = useAccount();
+  const [loading, setLoading] = useState(true);
+  const [gifts, setGifts] = useState<UserGiftsResponse>({
+    sentGifts: [],
+    receivedGifts: [],
+  });
 
-  const receivedGifts = [
-    { id: 3, amount: "0.05", currency: "ETH", sender: "0x9876...5432", status: "received", date: "2024-03-18" },
-  ];
+  useEffect(() => {
+    const fetchGifts = async () => {
+      if (!address) return;
+
+      try {
+        setLoading(true);
+        const data = await graphqlClient.request<UserGiftsResponse>(
+          GET_USER_GIFTS,
+          {
+            address: address.toLowerCase(),
+          },
+        );
+        setGifts(data);
+      } catch (error) {
+        console.error('Error fetching gifts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGifts();
+  }, [address]);
+
+  const getGiftStatus = (gift: GiftCard) => {
+    if (gift.refundedAt) return 'refunded';
+    if (gift.redeemedAt) return 'claimed';
+    if (gift.redeemed) return 'redeemed';
+    return 'pending';
+  };
+
+  const renderGiftCard = (gift: GiftCard, type: 'sent' | 'received') => (
+    <MagicCard key={gift.id} className="cursor-pointer">
+      <CardContent className="flex items-center justify-between p-6">
+        <div className="flex items-center gap-4">
+          <Gift className="h-8 w-8 text-muted-foreground" />
+          <div>
+            <p className="font-semibold">
+              {formatEther(gift.amount.toString())} ETH
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {type === 'sent' ? 'To: ' : 'From: '}
+              {type === 'sent' ? gift.recipient : gift.sender}
+            </p>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-sm font-medium capitalize">
+            {getGiftStatus(gift)}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {formatDate(Number(gift.createdAt))}
+          </p>
+        </div>
+      </CardContent>
+    </MagicCard>
+  );
+
+  const renderSkeleton = () => (
+    <div className="space-y-4">
+      {[1, 2, 3].map(i => (
+        <Card key={i}>
+          <CardContent className="flex items-center justify-between p-6">
+            <Skeleton className="h-16 w-full" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
 
   return (
     <div className="container flex justify-center py-8">
-      <div className="w-full max-w-8xl">
+      <div className="max-w-8xl w-full">
         <Card>
           <CardHeader className="text-center">
             <CardTitle>Gift Dashboard</CardTitle>
@@ -30,58 +111,34 @@ export default function Dashboard() {
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="sent">
                   <Send className="mr-2 h-4 w-4" />
-                  Sent
+                  Sent ({gifts.sentGifts.length})
                 </TabsTrigger>
                 <TabsTrigger value="received">
                   <Download className="mr-2 h-4 w-4" />
-                  Received
+                  Received ({gifts.receivedGifts.length})
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value="sent">
-                <div className="space-y-4">
-                  {sentGifts.map((gift) => (
-                    <MagicCard key={gift.id} className="cursor-pointer">
-                     
-                      <CardContent className="flex items-center justify-between p-6">
-                        <div className="flex items-center gap-4">
-                          <Gift className="h-8 w-8 text-muted-foreground" />
-                          <div>
-                            <p className="font-semibold">{gift.amount} {gift.currency}</p>
-                            <p className="text-sm text-muted-foreground">To: {gift.recipient}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-sm font-medium capitalize">{gift.status}</p>
-                          <p className="text-sm text-muted-foreground">{gift.date}</p>
-                        </div>
-                      </CardContent>
-                    
-                    </MagicCard>
-                  ))}
-                </div>
+                {loading ? (
+                  renderSkeleton()
+                ) : (
+                  <div className="space-y-4">
+                    {gifts.sentGifts.map(gift => renderGiftCard(gift, 'sent'))}
+                  </div>
+                )}
               </TabsContent>
 
               <TabsContent value="received">
-                <div className="space-y-4">
-                  {receivedGifts.map((gift) => (
-                    <Card key={gift.id}>
-                      <CardContent className="flex items-center justify-between p-6">
-                        <div className="flex items-center gap-4">
-                          <Gift className="h-8 w-8 text-muted-foreground" />
-                          <div>
-                            <p className="font-semibold">{gift.amount} {gift.currency}</p>
-                            <p className="text-sm text-muted-foreground">From: {gift.sender}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-sm font-medium capitalize">{gift.status}</p>
-                          <p className="text-sm text-muted-foreground">{gift.date}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                {loading ? (
+                  renderSkeleton()
+                ) : (
+                  <div className="space-y-4">
+                    {gifts.receivedGifts.map(gift =>
+                      renderGiftCard(gift, 'received'),
+                    )}
+                  </div>
+                )}
               </TabsContent>
             </Tabs>
           </CardContent>
