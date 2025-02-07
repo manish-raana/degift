@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { GiftTheme, getThemesByOccasion } from "@/lib/themes";
 import { useTheme } from "next-themes";
 import { MagicCard } from "@/components/magic-card";
-import TransactionDemo from "@/components/TransactionDemo";
+//import TransactionDemo from "@/components/TransactionDemo";
 
 export default function CreateGift() {
   const [amount, setAmount] = useState("");
@@ -103,6 +103,18 @@ export default function CreateGift() {
     if (message.length < 50) return "Good! Your message is clear and concise";
     return "Excellent! Your message is thoughtful and personal";
   };
+
+  const handleCreateCard = () => {
+    console.log('creating card...');
+    const metaData = {
+      amount,
+      message,
+      theme,
+      occasion
+    }
+    console.log('metaData: ', metaData);
+    
+  }
 
   return (
     <div className="py-8 px-4 w-full">
@@ -214,7 +226,7 @@ export default function CreateGift() {
                       <Palette className="h-4 w-4" />
                       Choose Your Perfect Theme
                     </Label>
-                    <TransactionDemo />
+                    {/* <TransactionDemo /> */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {availableThemes.map((_theme) => (
                         <MagicCard
@@ -248,7 +260,6 @@ export default function CreateGift() {
                                   <div className="text-xs font-medium truncate">Gift Card</div>
                                 </div>
                               </div>
-                        
                         </MagicCard>
                       ))}
                     </div>
@@ -376,10 +387,11 @@ export default function CreateGift() {
                   <Button 
                     className={cn(
                       "w-full mt-6",
-                      canProceed && "animate-pulse"
+                      
                     )}
                     size="lg" 
-                    disabled={!canProceed}
+                    
+                    onClick={()=>handleCreateCard()}
                   >
                     <Gift className="mr-2 h-5 w-5" />
                     Create Gift Card
