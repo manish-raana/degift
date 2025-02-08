@@ -47,7 +47,6 @@ export function ThemedGiftCard({
         minScratchPercentage={70}
         className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-xl"
         gradientColors={['#A97CF8', '#F38CB8', '#FDCC92']}
-        onReveal={() => setRevealed(true)}
       >
         <Card
           className={cn(

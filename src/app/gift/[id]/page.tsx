@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import {
   Card,
   CardContent,
@@ -29,7 +29,11 @@ interface GiftMetadata {
   recipient: string;
 }
 
-export default function GiftPage({ params }: { params: { id: string } }) {
+type Params = Promise<{ id: string }>
+
+export default function GiftPage(props: { params: Params }) {
+  const params = use(props.params);
+  const cid = params?.id;
   const [loading, setLoading] = useState(true);
   const [metadata, setMetadata] = useState<GiftMetadata | null>(null);
   const [giftData, setGiftData] = useState<any | null>(null);
@@ -40,7 +44,7 @@ export default function GiftPage({ params }: { params: { id: string } }) {
   const fetchGiftMetadata = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/pinata/?cid=${(await params)?.id}`);
+      const response = await fetch(`/api/pinata/?cid=${cid}`);
       const data = await response.json();
       if (!data.success) {
         throw new Error(data.error || 'Failed to fetch gift metadata');
@@ -75,7 +79,7 @@ export default function GiftPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     fetchGiftMetadata();
-  }, [params]);
+  }, [cid]);
 
   const getStatusDetails = () => {
     if (giftData?.redeemedAt) {

@@ -11,30 +11,6 @@ type UploadResponse = {
   user_id: string;
 };
 
-type GetCIDResponse = {
-  data?: JSON | string | Blob | null;
-  contentType: ContentType | null;
-};
-
-type ContentType =
-  | 'application/json'
-  | 'application/xml'
-  | 'text/plain'
-  | 'text/html'
-  | 'text/css'
-  | 'text/javascript'
-  | 'application/javascript'
-  | 'image/jpeg'
-  | 'image/png'
-  | 'image/gif'
-  | 'image/svg+xml'
-  | 'audio/mpeg'
-  | 'audio/ogg'
-  | 'video/mp4'
-  | 'application/pdf'
-  | 'application/octet-stream'
-  | string;
-
 // Upload JSON Metadata to IPFS
 export async function POST(req: NextRequest) {
   try {

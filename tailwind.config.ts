@@ -61,11 +61,6 @@ export default {
   safelist: [
     {
       pattern: /^bg-gradient-to-/, // This will include all gradient directions
-      pattern: /^from-/, // This will include all from-{color} classes
-      pattern: /^via-/, // This will include all via-{color} classes
-      pattern: /^to-/, // This will include all to-{color} classes
-      pattern: /^text-/, // This will include all text color classes
-      pattern: /^border-/, // This will include all border color classes
     },
   ],
   plugins: [require('tailwindcss-animate')],

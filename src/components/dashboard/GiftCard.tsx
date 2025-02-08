@@ -14,6 +14,7 @@ import {
 import { formatEther } from 'ethers';
 import GiftTransactions from './GiftTransaction';
 import { ThemedGiftCard } from './ThemedGiftCard';
+import { ShareGiftCard } from '@/components/ShareGiftCard';
 
 interface GiftCard {
   id: string;
@@ -116,6 +117,7 @@ export default function GiftCardComponent({
           </div>
         </CardContent>
       </Card>
+      <ShareGiftCard giftId={gift.id} occasion={metadata?.occasion} />
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[600px]">
@@ -145,6 +147,7 @@ export default function GiftCardComponent({
                 giftId={gift.id}
                 cid={gift.metadataURI}
                 canRedeem={canRedeem}
+                redeemed={redeemed}
                 canRefund={canRefund}
                 onTransactionSuccess={() => {
                   if (canRedeem) {
