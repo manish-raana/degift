@@ -1,49 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with
-[`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DeGift - AI-Powered Crypto Gift Cards
 
-## Getting Started
+DeGift is a decentralized application (dApp) that allows users to send cryptocurrency gifts with personalized AI-generated messages. Built with Next.js and blockchain technology, it provides a secure and user-friendly platform for creating and managing crypto gift cards.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- 🎁 **Create Crypto Gift Cards**: Send cryptocurrency gifts with personalized messages
+- 🤖 **AI-Powered Messages**: Generate custom messages using AI for any occasion
+- 💳 **Multiple Currencies**: Support for ETH, USDC, and USDT
+- 🎨 **Customizable Themes**: Various themes for different occasions
+- 📊 **Gift Dashboard**: Track sent and received gifts
+- 🤝 **Smart Contract Integration**: Secure and transparent gift management
+- 💬 **AI Chatbot Assistant**: Get help and information about the platform
+
+## Technology Stack
+
+- **Frontend**: Next.js 14, React, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Blockchain**: Ethereum (Base Sepolia TestNet)
+- **Web3 Integration**: Wagmi, Viem
+- **AI Integration**: Azure OpenAI
+- **Storage**: IPFS (Pinata)
+- **Authentication**: Coinbase Wallet
+- **Data Fetching**: GraphQL
+
+## Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Coinbase Wallet
+- Environment variables (see below)
+
+## Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+```env
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=
+NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS=
+NEXT_PUBLIC_GATEWAY_URL=
+PINATA_API_KEY=
+PINATA_SECRET_API_KEY=
+PINATA_JWT=
+PINATA_GATEWAY_URL=
+NEXT_PUBLIC_SUBGRAPH_URL=
+SUBGRAPH_API_KEY=
+OPENAI_API_URL=
+OPENAI_API_KEY=
+NEXT_PUBLIC_RPC_URL=
+NETWORK_ID=
+CDP_API_KEY_NAME=
+CDP_API_KEY_PRIVATE_KEY=
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the
-result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page
-auto-updates as you edit the file.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/degift.git
+```
 
-This project uses
-[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
-to automatically optimize and load [Geist](https://vercel.com/font), a new font
-family for Vercel.
+2. Install dependencies:
+```bash
+cd degift
+npm install
+```
 
-## Learn More
+3. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Key Features Explained
 
-You can check out
-[the Next.js GitHub repository](https://github.com/vercel/next.js) - your
-feedback and contributions are welcome!
+### Gift Creation Process
+1. **Gift Details**: Set amount, currency, and recipient
+2. **Message Creation**: Write custom message or generate with AI
+3. **Preview**: Review gift card before sending
+4. **Blockchain Transaction**: Secure gift creation on-chain
 
-## Deploy on Vercel
+### Gift Management
+- Track sent and received gifts
+- View gift status (available, redeemed, refunded)
+- Access gift details and metadata
 
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+### AI Integration
+- AI-powered message generation
+- Chatbot assistant for platform help
+- Context-aware responses
 
-Check out our
-[Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying)
-for more details.
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Contact
+
+Manish Rana - [@yourtwitter](https://x.com/ManishRaanaa)
+Project Link: [https://github.com/yourusername/degift](https://github.com/yourusername/degift)
+
+## Acknowledgments
+
+- [Next.js](https://nextjs.org/)
+- [Wagmi](https://wagmi.sh/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [OpenAI](https://openai.com/)
+- [Pinata](https://www.pinata.cloud/)
