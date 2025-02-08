@@ -53,8 +53,8 @@ export function GiftCardDetails({ gift, type }: GiftCardProps) {
         functionName: 'redeemGift',
         args: [BigInt(gift.id)],
       },
-    ]
-
+    ];
+  };
   const getRefundCalls = async () => {
     const degiftContractAddress =
       process.env.NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS!;

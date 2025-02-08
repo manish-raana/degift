@@ -14,6 +14,7 @@ import { baseSepolia } from 'viem/chains';
 
 interface GiftTransactionsProps {
   giftId: string;
+  cid: string;
   canRedeem: boolean;
   canRefund: boolean;
   onTransactionSuccess: () => void;
@@ -21,6 +22,7 @@ interface GiftTransactionsProps {
 
 export default function GiftTransactions({
   giftId,
+  cid,
   canRedeem,
   canRefund,
   onTransactionSuccess,
@@ -96,7 +98,7 @@ export default function GiftTransactions({
       <Button
         variant="outline"
         className="h-12 w-full rounded-xl"
-        onClick={() => window.open(`/gift/${giftId}`, '_blank')}
+        onClick={() => window.open(`/gift/${cid}`, '_blank')}
       >
         <ExternalLink className="mr-2 h-4 w-4" />
         View Gift

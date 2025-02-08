@@ -37,3 +37,25 @@ export const GET_USER_GIFTS = gql`
     }
   }
 `;
+
+export const GET_GIFT_DETAILS = gql`
+  query GetUserGifts($cid: String!) {
+    gift: giftCards(
+      where: { metadataURI: $cid }
+      orderBy: createdAt
+      orderDirection: desc
+    ) {
+      id
+      amount
+      tokenAddress
+      recipient
+      status
+      createdAt
+      redeemed
+      redeemedAt
+      refundedAt
+      metadataURI
+      expiration
+    }
+  }
+`;

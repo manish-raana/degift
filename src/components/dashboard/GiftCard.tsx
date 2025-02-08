@@ -1,7 +1,7 @@
 'use client';
 
 import { AlertCircle, CheckCircle, Clock, Gift } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { cn } from '@/lib/utils';
 import {
@@ -13,6 +13,7 @@ import {
 } from '../ui/dialog';
 import { formatEther } from 'ethers';
 import GiftTransactions from './GiftTransaction';
+import { ThemedGiftCard } from './ThemedGiftCard';
 
 interface GiftCard {
   id: string;
@@ -36,18 +37,37 @@ export default function GiftCardComponent({
   type: 'sent' | 'received';
 }) {
   const [open, setOpen] = useState(false);
+  const [metadata, setMetadata] = useState<any>(null);
+  const [showScratchCard, setShowScratchCard] = useState(false);
 
   const isExpired = new Date(Number(gift.expiration) * 1000) < new Date();
   const canRedeem = type === 'received' && !gift.redeemed && !isExpired;
   const canRefund = type === 'sent' && !gift.redeemed && !isExpired;
 
-  console.log('gift: ', gift);
   const getStatusColor = () => {
     if (gift.redeemedAt) return 'text-green-500';
     if (gift.refundedAt) return 'text-gray-500';
     if (isExpired) return 'text-red-500';
     return 'text-yellow-500';
   };
+
+  const fetchMetadata = async () => {
+    try {
+      const response = await fetch(`/api/gift/${gift.metadataURI}`);
+      const data = await response.json();
+      if (data.success) {
+        setMetadata(data.data.content);
+      }
+    } catch (error) {
+      console.error('Error fetching metadata:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      fetchMetadata();
+    }
+  }, [open]);
 
   const getStatus = () => {
     if (gift.redeemedAt) return 'Redeemed';
@@ -104,56 +124,96 @@ export default function GiftCardComponent({
               View and manage your crypto gift
             </DialogDescription>
           </DialogHeader>
-
-          <div className="space-y-4">
-            <div className="rounded-lg border p-4">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Amount</span>
-                  <span className="font-medium">
-                    {formatEther(gift.amount.toString())} ETH
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">
-                    {type === 'sent' ? 'Recipient' : 'Sender'}
-                  </span>
-                  <span className="font-medium">
-                    {type === 'sent' ? gift.recipient : gift.sender}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Status</span>
-                  <span className={cn('font-medium', getStatusColor())}>
-                    {getStatus()}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Created</span>
-                  <span className="font-medium">
-                    {new Date(
-                      Number(gift.createdAt) * 1000,
-                    ).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Expires</span>
-                  <span className="font-medium">
-                    {new Date(
-                      Number(gift.expiration) * 1000,
-                    ).toLocaleDateString()}
-                  </span>
+          {showScratchCard && metadata ? (
+            <ThemedGiftCard
+              amount={formatEther(gift.amount.toString())}
+              sender={gift.sender}
+              message={metadata.message}
+              theme={metadata.theme}
+              showScratch={true}
+            />
+          ) : metadata ? (
+            <div className="space-y-4">
+              <ThemedGiftCard
+                amount={formatEther(gift.amount.toString())}
+                sender={gift.sender}
+                message={metadata.message}
+                theme={metadata.theme}
+              />
+              <GiftTransactions
+                giftId={gift.id}
+                cid={gift.metadataURI}
+                canRedeem={canRedeem}
+                canRefund={canRefund}
+                onTransactionSuccess={() => {
+                  if (canRedeem) {
+                    setShowScratchCard(true);
+                  } else {
+                    setOpen(false);
+                  }
+                }}
+              />
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="rounded-lg border p-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      Amount
+                    </span>
+                    <span className="font-medium">
+                      {formatEther(gift.amount.toString())} ETH
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      {type === 'sent' ? 'Recipient' : 'Sender'}
+                    </span>
+                    <span className="font-medium">
+                      {type === 'sent' ? gift.recipient : gift.sender}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      Status
+                    </span>
+                    <span className={cn('font-medium', getStatusColor())}>
+                      {getStatus()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      Created
+                    </span>
+                    <span className="font-medium">
+                      {new Date(
+                        Number(gift.createdAt) * 1000,
+                      ).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      Expires
+                    </span>
+                    <span className="font-medium">
+                      {new Date(
+                        Number(gift.expiration) * 1000,
+                      ).toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <GiftTransactions
-              giftId={gift.id}
-              canRedeem={canRedeem}
-              canRefund={canRefund}
-              onTransactionSuccess={() => setOpen(false)}
-            />
-          </div>
+              <GiftTransactions
+                giftId={gift.id}
+                cid={gift.metadataURI}
+                canRedeem={canRedeem}
+                canRefund={canRefund}
+                onTransactionSuccess={() => setOpen(false)}
+              />
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </>
