@@ -5,10 +5,11 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Providers } from './providers'; 
+import { Providers } from './providers';
 import { cookieToInitialState } from 'wagmi';
 import { headers } from 'next/headers';
 import { getConfig } from './wagmi';
+import { ChatbotButton } from '@/components/Chatbot/ChatbotButton';
 
 export const metadata: Metadata = {
   title: 'DeGift - AI-Powered Crypto Gift Cards',
@@ -22,7 +23,7 @@ export default async function RootLayout({
 }) {
   const initialState = cookieToInitialState(
     getConfig(),
-    (await headers()).get('cookie')
+    (await headers()).get('cookie'),
   );
   return (
     <html lang="en" suppressHydrationWarning>
@@ -34,11 +35,12 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Providers initialState={initialState}>
-            <div className="max-w-7xl w-full">
+            <div className="w-full max-w-7xl">
               <Navbar />
               <main className="w-full">{children}</main>
               <Footer />
             </div>
+            <ChatbotButton />
           </Providers>
           <Toaster />
         </ThemeProvider>
