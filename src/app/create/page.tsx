@@ -13,7 +13,7 @@ import { Check, PartyPopper } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { GiftTheme, getThemesByOccasion } from '@/lib/themes';
 import { ThemePreviewModal } from '@/components/ThemePreviewModal';
-import GiftDetails from '@/components/create/GiftDetails';
+import GiftCardDetails from '@/components/create/GiftDetails';
 import GiftMessage from '@/components/create/GiftMessage';
 import GiftPreview from '@/components/create/GiftPreview';
 import { DeGift_ABI } from '@/abi/DeGiftContract';
@@ -255,7 +255,7 @@ export default function CreateGift() {
 
             <div className="min-h-[400px]">
               <TabsContent value="details">
-                <GiftDetails
+                <GiftCardDetails
                   amount={amount}
                   setAmount={setAmount}
                   isAmountTouched={isAmountTouched}
