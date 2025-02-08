@@ -13,6 +13,7 @@ interface GiftCard {
   redeemedAt?: string;
   metadataURI: string;
   expiration: string;
+  recipient: string
 }
 
 interface ChatMessageProps {
@@ -37,6 +38,7 @@ export function ChatMessage({ message, onSuggestionClick }: ChatMessageProps) {
   };
 
   const formatAddress = (address: string | null | undefined) => {
+    console.log('address: ', address)
     if (!address) return 'Unknown';
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
@@ -67,12 +69,16 @@ export function ChatMessage({ message, onSuggestionClick }: ChatMessageProps) {
           <div className="flex justify-between">
             <span className="text-muted-foreground">Amount:</span>
             <span className="font-medium">
-              {formatEther(gift.amount || '0')} ETH
+              {formatEther(Number(gift.amount).toString() || '0')} ETH
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">From:</span>
             <span className="font-medium">{formatAddress(gift.sender)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">To:</span>
+            <span className="font-medium">{formatAddress(gift.recipient)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Created:</span>
