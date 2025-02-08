@@ -102,7 +102,7 @@ npm run dev
 ## Contact
 
 Manish Rana - [@yourtwitter](https://x.com/ManishRaanaa)
-Project Link: [https://github.com/yourusername/degift](https://github.com/yourusername/degift)
+Project Link: [https://github.com/manish-raana](degift.vercel.app)
 
 ## Acknowledgments
 
