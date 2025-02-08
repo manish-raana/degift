@@ -56,6 +56,8 @@ export function useChat() {
       // data.result is already parsed JSON
       const result = data.result;
 
+      console.log('result: ', result);
+
       setMessages(prev => [
         ...prev,
         {

@@ -13,7 +13,7 @@ interface GiftCard {
   redeemedAt?: string;
   metadataURI: string;
   expiration: string;
-  recipient: string
+  recipient: string;
 }
 
 interface ChatMessageProps {
@@ -38,11 +38,23 @@ export function ChatMessage({ message, onSuggestionClick }: ChatMessageProps) {
   };
 
   const formatAddress = (address: string | null | undefined) => {
-    console.log('address: ', address)
+    //console.log('address: ', address)
     if (!address) return 'Unknown';
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
-
+  const formatAmount = (amount: string | number): string => {
+    try {
+      // If the amount is a very large number (in Wei)
+      if (amount.toString().length > 10) {
+        return `${Number(formatEther(amount.toString())).toFixed(4)} ETH`;
+      }
+      // If the amount is already in ETH
+      return `${Number(amount).toFixed(4)} ETH`;
+    } catch (error) {
+      console.error('Error formatting amount:', error);
+      return '0 ETH';
+    }
+  };
   const renderGiftCards = (gifts: GiftCard[]) => {
     return gifts.map(gift => (
       <div
@@ -68,17 +80,17 @@ export function ChatMessage({ message, onSuggestionClick }: ChatMessageProps) {
         <div className="space-y-1">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Amount:</span>
-            <span className="font-medium">
-              {formatEther(Number(gift.amount).toString() || '0')} ETH
-            </span>
+            <span className="font-medium">{formatAmount(gift.amount)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">From:</span>
-            <span className="font-medium">{formatAddress(gift.sender)}</span>
+            <span className="font-medium">{formatAddress(gift?.sender)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">To:</span>
-            <span className="font-medium">{formatAddress(gift.recipient)}</span>
+            <span className="font-medium">
+              {formatAddress(gift?.recipient)}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Created:</span>

@@ -42,7 +42,18 @@ Always format your responses in JSON with the following structure:
   "data": {},
   "suggestions": []
 }
-Keep responses concise and friendly. Use the provided user data for personalized responses.`;
+Keep response as it is along with concise and friendly. Response should be in this format id: string;
+amount: string
+tokenAddress: string
+sender: string
+status: string
+createdAt: string
+redeemed: boolean
+redeemedAt?: string
+metadataURI: string
+expiration: string
+recipient: string
+Use the provided user data for personalized responses.`;
 
 export async function POST(req: NextRequest) {
   try {
