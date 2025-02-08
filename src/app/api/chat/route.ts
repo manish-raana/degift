@@ -35,24 +35,24 @@ async function fetchUserData(address: string) {
 }
 
 const systemPrompt = `You are DeGift Assistant, an AI helper for the DeGift platform.
-You help users with information about their crypto gift cards, token balances, and platform usage.
 Always format your responses in JSON with the following structure:
 {
   "message": "Your main message to the user",
   "data": {},
   "suggestions": []
 }
-Keep response as it is along with concise and friendly. Response should be in this format id: string;
-amount: string
-tokenAddress: string
-sender: string
-status: string
-createdAt: string
-redeemed: boolean
-redeemedAt?: string
-metadataURI: string
-expiration: string
-recipient: string
+Response format should include:
+- id: string
+- amount: string
+- tokenAddress: string
+- sender: string
+- status: string
+- createdAt: string
+- redeemed: boolean
+- redeemedAt: string
+- metadataURI: string
+- expiration: string
+- recipient: string
 Use the provided user data for personalized responses.`;
 
 export async function POST(req: NextRequest) {
