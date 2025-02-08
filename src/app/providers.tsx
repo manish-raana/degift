@@ -6,31 +6,30 @@ import { baseSepolia } from 'wagmi/chains'; // add baseSepolia for testing
 import { type ReactNode, useState } from 'react';
 import { type State, WagmiProvider } from 'wagmi';
 import { getConfig } from './wagmi'; // your import path may vary
- 
+
 export function Providers(props: {
   children: ReactNode;
   initialState?: State;
 }) {
   const [config] = useState(() => getConfig());
   const [queryClient] = useState(() => new QueryClient());
-  const apiKey = process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || ''; 
- 
+  const apiKey = process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || '';
+
   return (
     <WagmiProvider config={config} initialState={props.initialState}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-         
           config={{
             appearance: {
-                name: 'DeGift',
-                logo: 'https://res.cloudinary.com/dpxb3nqwd/image/upload/v1738945481/wiejuxpnlsg03wcjzm9x.png',
-                mode: 'dark',
-                theme: 'base',
-              },
-               wallet:{
-                display:"modal"
-               }
-            }}
+              name: 'DeGift',
+              logo: 'https://res.cloudinary.com/dpxb3nqwd/image/upload/v1738945481/wiejuxpnlsg03wcjzm9x.png',
+              mode: 'dark',
+              theme: 'base',
+            },
+            wallet: {
+              display: 'classic',
+            },
+          }}
           apiKey={apiKey}
           chain={baseSepolia} // add baseSepolia for testing
         >
