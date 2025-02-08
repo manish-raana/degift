@@ -2,22 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { MagicCard } from '@/components/magic-card';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Gift, Send, Download } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { graphqlClient } from '@/lib/graphql';
 import { GET_USER_GIFTS } from '@/lib/queries';
-import { UserGiftsResponse, GiftCard } from '@/types/gift';
-import { formatEther } from 'ethers';
-import { formatDate } from '@/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Download, Send } from 'lucide-react';
+import GiftCardComponent from '@/components/dashboard/GiftCard';
+import { UserGiftsResponse } from '@/types/gift';
 
 export default function Dashboard() {
   const { address } = useAccount();
@@ -27,62 +19,42 @@ export default function Dashboard() {
     receivedGifts: [],
   });
 
+  const fetchGifts = async () => {
+    if (!address) return;
+
+    try {
+      setLoading(true);
+      const data = await graphqlClient.request<UserGiftsResponse>(
+        GET_USER_GIFTS,
+        {
+          address: address.toLowerCase(),
+        },
+      );
+      setGifts(data);
+    } catch (error) {
+      console.error('Error fetching gifts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchGifts = async () => {
-      if (!address) return;
-
-      try {
-        setLoading(true);
-        const data = await graphqlClient.request<UserGiftsResponse>(
-          GET_USER_GIFTS,
-          {
-            address: address.toLowerCase(),
-          },
-        );
-        setGifts(data);
-      } catch (error) {
-        console.error('Error fetching gifts:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchGifts();
   }, [address]);
 
-  const getGiftStatus = (gift: GiftCard) => {
-    if (gift.refundedAt) return 'refunded';
-    if (gift.redeemedAt) return 'claimed';
-    if (gift.redeemed) return 'redeemed';
-    return 'pending';
-  };
+  useEffect(() => {
+    const handleTransactionSuccess = () => {
+      fetchGifts();
+    };
 
-  const renderGiftCard = (gift: GiftCard, type: 'sent' | 'received') => (
-    <MagicCard key={gift.id} className="cursor-pointer">
-      <CardContent className="flex items-center justify-between p-6">
-        <div className="flex items-center gap-4">
-          <Gift className="h-8 w-8 text-muted-foreground" />
-          <div>
-            <p className="font-semibold">
-              {formatEther(gift.amount.toString())} ETH
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {type === 'sent' ? 'To: ' : 'From: '}
-              {type === 'sent' ? gift.recipient : gift.sender}
-            </p>
-          </div>
-        </div>
-        <div className="text-right">
-          <p className="text-sm font-medium capitalize">
-            {getGiftStatus(gift)}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {formatDate(Number(gift.createdAt))}
-          </p>
-        </div>
-      </CardContent>
-    </MagicCard>
-  );
+    window.addEventListener('transaction-success', handleTransactionSuccess);
+    return () => {
+      window.removeEventListener(
+        'transaction-success',
+        handleTransactionSuccess,
+      );
+    };
+  }, []);
 
   const renderSkeleton = () => (
     <div className="space-y-4">
@@ -100,13 +72,7 @@ export default function Dashboard() {
     <div className="container flex justify-center py-8">
       <div className="max-w-8xl w-full">
         <Card>
-          <CardHeader className="text-center">
-            <CardTitle>Gift Dashboard</CardTitle>
-            <CardDescription>
-              Manage your sent and received crypto gifts
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <Tabs defaultValue="sent" className="space-y-4">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="sent">
@@ -122,9 +88,19 @@ export default function Dashboard() {
               <TabsContent value="sent">
                 {loading ? (
                   renderSkeleton()
+                ) : gifts.sentGifts.length === 0 ? (
+                  <div className="text-center text-muted-foreground">
+                    No sent gifts yet
+                  </div>
                 ) : (
                   <div className="space-y-4">
-                    {gifts.sentGifts.map(gift => renderGiftCard(gift, 'sent'))}
+                    {gifts.sentGifts.map(gift => (
+                      <GiftCardComponent
+                        key={gift.id}
+                        gift={gift}
+                        type="sent"
+                      />
+                    ))}
                   </div>
                 )}
               </TabsContent>
@@ -132,11 +108,19 @@ export default function Dashboard() {
               <TabsContent value="received">
                 {loading ? (
                   renderSkeleton()
+                ) : gifts.receivedGifts.length === 0 ? (
+                  <div className="text-center text-muted-foreground">
+                    No received gifts yet
+                  </div>
                 ) : (
                   <div className="space-y-4">
-                    {gifts.receivedGifts.map(gift =>
-                      renderGiftCard(gift, 'received'),
-                    )}
+                    {gifts.receivedGifts.map(gift => (
+                      <GiftCardComponent
+                        key={gift.id}
+                        gift={gift}
+                        type="received"
+                      />
+                    ))}
                   </div>
                 )}
               </TabsContent>

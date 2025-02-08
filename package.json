@@ -10,9 +10,10 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@apollo/client": "^3.12.11",
     "@coinbase/onchainkit": "^0.36.9",
     "@graphprotocol/graph-ts": "^0.37.0",
-    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-dropdown-menu": "^2.1.5",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.2",

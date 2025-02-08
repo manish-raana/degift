@@ -17,6 +17,7 @@ export const GET_USER_GIFTS = gql`
       redeemedAt
       refundedAt
       metadataURI
+      expiration
     }
     receivedGifts: giftCards(
       where: { recipient: $address }
@@ -32,6 +33,7 @@ export const GET_USER_GIFTS = gql`
       redeemed
       redeemedAt
       metadataURI
+      expiration
     }
   }
 `;

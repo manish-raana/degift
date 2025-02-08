@@ -14,16 +14,16 @@ export interface GiftMessage {
 
 export interface GiftCard {
   id: string;
+  amount: bigint;
+  tokenAddress: string;
   sender: string;
   recipient: string;
-  amount: string;
-  tokenAddress: string;
-  status: string;
   createdAt: string;
+  metadataURI: string;
   redeemed: boolean;
   redeemedAt: string | null;
   refundedAt: string | null;
-  metadataURI: string;
+  expiration: string;
 }
 
 export interface UserGiftsResponse {

@@ -1,15 +1,8 @@
 'use client';
+
+import { AlertCircle, CheckCircle, Clock, Gift } from 'lucide-react';
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import {
-  Gift,
-  ExternalLink,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-} from 'lucide-react';
-import { formatEther } from 'ethers';
+import { Card, CardContent } from '../ui/card';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -17,58 +10,38 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { DeGift_ABI } from '@/abi/DeGiftContract';
-import {
-  Transaction,
-  TransactionButton,
-  TransactionStatus,
-  TransactionStatusLabel,
-  TransactionStatusAction,
-} from '@coinbase/onchainkit/transaction';
-import { baseSepolia } from 'viem/chains';
-import { GiftCard as GiftCardType } from '@/types/gift';
+} from '../ui/dialog';
+import { formatEther } from 'ethers';
+import GiftTransactions from './GiftTransaction';
 
-interface GiftCardProps {
-  gift: GiftCardType;
-  type: 'sent' | 'received';
-  onSuccess?: () => void;
+interface GiftCard {
+  id: string;
+  amount: bigint;
+  tokenAddress: string;
+  sender: string;
+  recipient: string;
+  createdAt: string;
+  metadataURI: string;
+  redeemed: boolean;
+  redeemedAt: string | null;
+  refundedAt: string | null;
+  expiration: string;
 }
 
-export function GiftCardDetails({ gift, type }: GiftCardProps) {
-  const [showDetails, setShowDetails] = useState(false);
+export default function GiftCardComponent({
+  gift,
+  type,
+}: {
+  gift: GiftCard;
+  type: 'sent' | 'received';
+}) {
+  const [open, setOpen] = useState(false);
 
   const isExpired = new Date(Number(gift.expiration) * 1000) < new Date();
   const canRedeem = type === 'received' && !gift.redeemed && !isExpired;
   const canRefund = type === 'sent' && !gift.redeemed && !isExpired;
 
-  const getRedeemCalls = async () => {
-    const degiftContractAddress =
-      process.env.NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS!;
-
-    return [
-      {
-        address: degiftContractAddress as `0x${string}`,
-        abi: DeGift_ABI,
-        functionName: 'redeemGift',
-        args: [BigInt(gift.id)],
-      },
-    ]
-
-  const getRefundCalls = async () => {
-    const degiftContractAddress =
-      process.env.NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS!;
-
-    return Promise.resolve([
-      {
-        address: degiftContractAddress as `0x${string}`,
-        abi: DeGift_ABI,
-        functionName: 'refundGift',
-        args: [BigInt(gift.id)],
-      },
-    ]);
-  };
-
+  console.log('gift: ', gift);
   const getStatusColor = () => {
     if (gift.redeemedAt) return 'text-green-500';
     if (gift.refundedAt) return 'text-gray-500';
@@ -94,11 +67,13 @@ export function GiftCardDetails({ gift, type }: GiftCardProps) {
     <>
       <Card
         className="cursor-pointer transition-all duration-200 hover:shadow-md"
-        onClick={() => setShowDetails(true)}
+        onClick={() => setOpen(true)}
       >
         <CardContent className="flex items-center justify-between p-6">
           <div className="flex items-center gap-4">
-            <Gift className="h-8 w-8 text-muted-foreground" />
+            <div className="rounded-full bg-primary/10 p-2">
+              <Gift className="h-6 w-6 text-primary" />
+            </div>
             <div>
               <p className="font-semibold">
                 {formatEther(gift.amount.toString())} ETH
@@ -121,8 +96,8 @@ export function GiftCardDetails({ gift, type }: GiftCardProps) {
         </CardContent>
       </Card>
 
-      <Dialog open={showDetails} onOpenChange={setShowDetails}>
-        <DialogContent className="sm:max-w-[425px]">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
             <DialogTitle>Gift Details</DialogTitle>
             <DialogDescription>
@@ -154,6 +129,14 @@ export function GiftCardDetails({ gift, type }: GiftCardProps) {
                   </span>
                 </div>
                 <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Created</span>
+                  <span className="font-medium">
+                    {new Date(
+                      Number(gift.createdAt) * 1000,
+                    ).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex justify-between">
                   <span className="text-sm text-muted-foreground">Expires</span>
                   <span className="font-medium">
                     {new Date(
@@ -164,40 +147,12 @@ export function GiftCardDetails({ gift, type }: GiftCardProps) {
               </div>
             </div>
 
-            <div className="flex gap-2">
-              {canRedeem && (
-                <Transaction chainId={baseSepolia.id} calls={getRedeemCalls}>
-                  <TransactionButton
-                    text="Redeem Gift"
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                  />
-                  <TransactionStatus>
-                    <TransactionStatusLabel />
-                    <TransactionStatusAction />
-                  </TransactionStatus>
-                </Transaction>
-              )}
-              {canRefund && (
-                <Transaction chainId={baseSepolia.id} calls={getRefundCalls}>
-                  <TransactionButton
-                    text="Refund Gift"
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                  />
-                  <TransactionStatus>
-                    <TransactionStatusLabel />
-                    <TransactionStatusAction />
-                  </TransactionStatus>
-                </Transaction>
-              )}
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => window.open(`/gift/${gift.id}`, '_blank')}
-              >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                View Gift
-              </Button>
-            </div>
+            <GiftTransactions
+              giftId={gift.id}
+              canRedeem={canRedeem}
+              canRefund={canRefund}
+              onTransactionSuccess={() => setOpen(false)}
+            />
           </div>
         </DialogContent>
       </Dialog>
