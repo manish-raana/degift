@@ -43,6 +43,7 @@ export default function GiftCardComponent({
   const isExpired = new Date(Number(gift.expiration) * 1000) < new Date();
   const canRedeem = type === 'received' && !gift.redeemed && !isExpired;
   const canRefund = type === 'sent' && !gift.redeemed && !isExpired;
+  const redeemed = gift.redeemed;
 
   const getStatusColor = () => {
     if (gift.redeemedAt) return 'text-green-500';
@@ -209,6 +210,7 @@ export default function GiftCardComponent({
                 giftId={gift.id}
                 cid={gift.metadataURI}
                 canRedeem={canRedeem}
+                redeemed={redeemed}
                 canRefund={canRefund}
                 onTransactionSuccess={() => setOpen(false)}
               />
