@@ -111,3 +111,5 @@ Project Link: [https://github.com/manish-raana](degift.vercel.app)
 - [shadcn/ui](https://ui.shadcn.com/)
 - [OpenAI](https://openai.com/)
 - [Pinata](https://www.pinata.cloud/)
+
+.
