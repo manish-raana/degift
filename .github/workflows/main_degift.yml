@@ -8,24 +8,12 @@ on:
     branches:
       - main
   workflow_dispatch:
-env:
-  NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
-  NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS: ${{ secrets.NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS }}
-  PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
-  PINATA_JWT: ${{ secrets.PINATA_JWT }}
-  PINATA_GATEWAY_URL: ${{ secrets.PINATA_GATEWAY_URL }}
-  NEXT_PUBLIC_SUBGRAPH_URL: ${{ secrets.NEXT_PUBLIC_SUBGRAPH_URL }}
-  SUBGRAPH_API_KEY: ${{ secrets.SUBGRAPH_API_KEY }}
-  OPENAI_API_URL: ${{ secrets.OPENAI_API_URL }}
-  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  NEXT_PUBLIC_RPC_URL: ${{ secrets.NEXT_PUBLIC_RPC_URL }}
-  NETWORK_ID: ${{ secrets.NETWORK_ID }}
-  CDP_API_KEY_NAME: ${{ secrets.CDP_API_KEY_NAME }}
-  CDP_API_KEY_PRIVATE_KEY: ${{ secrets.CDP_API_KEY_PRIVATE_KEY }}
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +33,7 @@ jobs:
         run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: release.zip
@@ -56,21 +44,31 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: node-app
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3D0D9F06B16545B8971AE7F00C6219A6 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9E995A14F9D347F3AAA3F99605B31B8A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CBC9F8E33FA34239BDB7CB56F682AA52 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: 'degift'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6B1FD99652CC4D6AA174F4D120E8CE43 }}
           package: .
+          
