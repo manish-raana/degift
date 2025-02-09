@@ -8,6 +8,20 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+  NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ vars.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
+  NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS: ${{ vars.NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS }}
+  PINATA_API_KEY: ${{ vars.PINATA_API_KEY }}
+  PINATA_JWT: ${{ vars.PINATA_JWT }}
+  PINATA_GATEWAY_URL: ${{ vars.PINATA_GATEWAY_URL }}
+  NEXT_PUBLIC_SUBGRAPH_URL: ${{ vars.NEXT_PUBLIC_SUBGRAPH_URL }}
+  SUBGRAPH_API_KEY: ${{ vars.SUBGRAPH_API_KEY }}
+  OPENAI_API_URL: ${{ vars.OPENAI_API_URL }}
+  OPENAI_API_KEY: ${{ vars.OPENAI_API_KEY }}
+  NEXT_PUBLIC_RPC_URL: ${{ vars.NEXT_PUBLIC_RPC_URL }}
+  NETWORK_ID: ${{ vars.NETWORK_ID }}
+  CDP_API_KEY_NAME: ${{ vars.CDP_API_KEY_NAME }}
+  CDP_API_KEY_PRIVATE_KEY: ${{ vars.CDP_API_KEY_PRIVATE_KEY }}
 
 jobs:
   build:
@@ -17,20 +31,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        env:
-          NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
-          NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS: ${{ secrets.NEXT_PUBLIC_DEGIFT_CONTRACT_ADDRESS }}
-          PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
-          PINATA_JWT: ${{ secrets.PINATA_JWT }}
-          PINATA_GATEWAY_URL: ${{ secrets.PINATA_GATEWAY_URL }}
-          NEXT_PUBLIC_SUBGRAPH_URL: ${{ secrets.NEXT_PUBLIC_SUBGRAPH_URL }}
-          SUBGRAPH_API_KEY: ${{ secrets.SUBGRAPH_API_KEY }}
-          OPENAI_API_URL: ${{ secrets.OPENAI_API_URL }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          NEXT_PUBLIC_RPC_URL: ${{ secrets.NEXT_PUBLIC_RPC_URL }}
-          NETWORK_ID: ${{ secrets.NETWORK_ID }}
-          CDP_API_KEY_NAME: ${{ secrets.CDP_API_KEY_NAME }}
-          CDP_API_KEY_PRIVATE_KEY: ${{ secrets.CDP_API_KEY_PRIVATE_KEY }}
           
       - name: Set up Node.js version
         uses: actions/setup-node@v3
